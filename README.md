@@ -3,12 +3,12 @@ Node.js library for reading a file (local path, buffer, string/base64, stream, u
 
 ## Installation
 ```bash
-$ npm install --save vannleonheart/comot
+$ npm install --save comot
 ```
 
 ## Usage
 ```js
-const Storage = require('vannleonheart/comot');
+const Storage = require('comot');
 ```
 
 ### Start Reading
