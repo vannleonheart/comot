@@ -136,5 +136,5 @@ const Writer = Storage.Writer('aws-s3', {
     bucket: 'your_bucket_name'
 });
 
-Writer.unlink('').then(console.log).catch(console.error);
+Writer.unlink('https://region_name.amazonaws.com/your_bucket_name/your_resource_name').then(console.log).catch(console.error);
 ```
