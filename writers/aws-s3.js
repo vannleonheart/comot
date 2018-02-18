@@ -57,6 +57,51 @@ const upload = (s3, configs = {}) => (input, filename, options = {}) => new Prom
     }
 });
 
+const resolveResourceName = (filename, bucket) => {
+    filename = filename.replace(/^https?\:\/\/[a-z0-9\-\_\.]+\//gi, '');
+    filename = filename.replace(`${bucket}/`, '');
+
+    return filename;
+}
+
+const unlink = (s3, configs) => (filename, options = {}) => new Promise((resolve, reject) => {
+    if (typeof filename !== 'string') {
+        filename = '';
+    } else {
+        filename = filename.trim();
+    }
+
+    if (filename.length <= 0) {
+        reject(new Error('ERR_FILE_NAME_REQUIRED'));            
+    }
+
+    let bucket;
+
+    if (typeof options === 'string') {
+        bucket = options.trim();
+    } else {
+        bucket = options.bucket || configs.bucket || '';
+    }
+
+    if (typeof bucket !== 'string' || bucket.length <= 0) {
+        reject(new Error('ERR_BUCKET_NAME_REQUIRED'));
+    }
+
+    const params = {
+        Bucket: bucket,
+        Key: resolveResourceName(filename, bucket)
+    }
+
+    s3.deleteObject(params, err => {
+        if (err) {
+            reject(err);
+        } else {
+            resolve();
+        }
+    });
+});
+
+
 module.exports = configs => {
     const AWS = require('aws-sdk');
     const s3 = new AWS.S3(Object.assign({}, configs, {
@@ -68,6 +113,7 @@ module.exports = configs => {
 
     w.provider = 'aws-s3';
     w.upload = upload(s3, configs);
+    w.unlink = unlink(s3, configs);
 
     return w;
 }
