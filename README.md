@@ -66,37 +66,75 @@ Input.toString().then(function (string) {
 ### Uploading
 Upload to local
 ```js
-const Output = Storage.Writer('local');
+const Writer = Storage.Writer('local');
 
-Output.upload(Input, './image-copy.jpg').then(console.log).catch(console.error);
+Writer.upload(Input, './path_to/new_resource_file.jpg').then(console.log).catch(console.error);
 ```
 Upload to Cloudinary
 ```js
-const Output = Storage.Writer('cloudinary', {
-    cloud_name: '... your cloudinary cloud name',
-    api_key: '... your cloudinary api key',
-    api_secret: '... your cloudinary api secret',
+const Writer = Storage.Writer('cloudinary', {
+    cloud_name: 'your_cloud_name',
+    api_key: 'your_api_key',
+    api_secret: 'your_api_secret',
     secure: true // use https 
 });
 
-Output.upload(Input, './image.jpg').then(console.log).catch(console.error);
+Writer.upload(Input, 'new_resource_name.jpg').then(console.log).catch(console.error);
 ```
 Upload to Google Cloud Storage
 ```js
-const Output = Storage.Writer('google-cloud-storage', {
-    keyFile: '... your json file'
+const Writer = Storage.Writer('google-cloud-storage', {
+    keyFile: './path_to/your_json_file'
 });
 
-Output.upload(Input, 'image.jpg', '... your bucket name').then(console.log).catch(console.error);
+Writer.upload(Input, 'new_resource_name.jpg', 'your_bucket_name').then(console.log).catch(console.error);
 ```
 
 Upload to AWS S3
 ```js
-const Output = Storage.Writer('aws-s3', {
-    accessKeyId: '... your aws access key id',
-    secretAccessKey: '... your aws access key secret',
-    region: '... your s3 region'
+const Writer = Storage.Writer('aws-s3', {
+    accessKeyId: 'your_access_key_id',
+    secretAccessKey: 'your_access_key_secret',
+    region: 'your_region_name'
 });
 
-Output.upload(Input, 'image.jpg', '... your bucket name').then(console.log).catch(console.error);
+Writer.upload(Input, 'new_resource_name.jpg', 'your_bucket_name').then(console.log).catch(console.error);
+```
+### Deleting
+Delete a local file
+```js
+const Writer = Storage.Writer('local');
+
+Writer.unlink('./path_to/your_resource_file.jpg').then(console.log).catch(console.error);
+```
+Delete resource on Cloudinary
+```js
+const Writer = Storage.Writer('cloudinary', {
+    cloud_name: 'your_cloud_name',
+    api_key: 'your_api_key',
+    api_secret: 'your_api_secret',
+    secure: true // use https
+});
+
+Writer.unlink('https://res.cloudinary.com/your_cloud_name/image/upload/v1516540448/your_resource_name.jpg').then(console.log).catch(console.error);
+```
+Delete resource on Google Cloud Storage
+```js
+const Writer = Storage.Writer('google-cloud-storage', {
+    keyFile: './path_to/your_json_file',
+    bucket: 'your_bucket_name'
+});
+
+Writer.unlink('https://storage.googleapis.com/your_bucket_name/avatars/your_resource_name.png').then(console.log).catch(console.error);
+```
+Delete resource on AWS S3
+```js
+const Writer = Storage.Writer('aws-s3', {
+    accessKeyId: 'your_access_key_id',
+    secretAccessKey: 'your_access_key_secret',
+    region: 'your_region_name',
+    bucket: 'your_bucket_name'
+});
+
+Writer.unlink('').then(console.log).catch(console.error);
 ```

@@ -36,6 +36,35 @@ const upload = (cloudinary, configs) => (input, filename) => new Promise((resolv
     }
 });
 
+const resolveResourceName = filename => {
+    filename = filename.replace(/^https?\:\/\/res\.cloudinary\.com\/(\w+){1}\/image\/upload\/(\w+\/){1}/gi, '');
+    
+    const path = require('path');
+    const fpath = path.parse(filename);
+    
+    return path.join(fpath.dir, fpath.name);
+}
+
+const unlink = cloudinary => filename => new Promise((resolve, reject) => {
+    if (typeof filename !== 'string') {
+        filename = '';
+    } else {
+        filename = filename.trim();
+    }
+
+    if (filename.length <= 0) {
+        reject(new Error('ERR_FILE_NAME_REQUIRED'));            
+    }
+
+    cloudinary.v2.api.delete_resources(resolveResourceName(filename), err => {
+        if (err) {
+            reject(err);
+        } else {
+            resolve();
+        }
+    });
+});
+
 module.exports = configs => {
     const cloudinary = require('cloudinary');
     cloudinary.config(configs);
@@ -45,6 +74,7 @@ module.exports = configs => {
 
     w.provider = 'cloudinary';
     w.upload = upload(cloudinary, configs);
+    w.unlink = unlink(cloudinary);
 
     return w;
 }
