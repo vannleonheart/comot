@@ -52,6 +52,14 @@ const getInputType = input => {
 }
 
 module.exports = (input, configs = {}) => {
+    if (!input) {
+        throw new Error('ERR_INPUT_REQUIRED');
+    }
+
+    if (input.isReader === true) {
+        return input;
+    }
+
     let handler;
 
     switch (getInputType(input)) {

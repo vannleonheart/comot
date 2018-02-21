@@ -1,9 +1,5 @@
 const upload = (s3, configs = {}) => (input, filename, options = {}) => new Promise((resolve, reject) => {
-    if (typeof input === 'string') {
-        const reader = require('./../readers'); 
-
-        input = reader(input, configs);
-    }
+    input = require('./../readers')(input, configs);
 
     if (input && input.isReader === true) {
         if (typeof filename !== 'string') {
