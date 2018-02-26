@@ -89,11 +89,11 @@ const unlink = (gcs, configs) => (filename, options = {}) => new Promise((resolv
 module.exports = configs => {
     if (typeof configs === 'string') {
         configs = {
-            keyFile: path.resolve(configs.trim())
+            keyFilename: path.resolve(configs.trim())
         }
     }
 
-    if (!configs || !configs.keyFile || typeof configs.keyFile !== 'string') {
+    if (!configs || !configs.keyFilename || typeof configs.keyFilename !== 'string') {
         throw new Error('ERR_KEY_FILE_REQUIRED');
     }
     

@@ -84,7 +84,7 @@ Writer.upload(Input, 'new_resource_name.jpg').then(console.log).catch(console.er
 Upload to Google Cloud Storage
 ```js
 const Writer = Storage.Writer('google-cloud-storage', {
-    keyFile: './path_to/your_json_file'
+    keyFilename: './path_to/your_json_file'
 });
 
 Writer.upload(Input, 'new_resource_name.jpg', 'your_bucket_name').then(console.log).catch(console.error);
@@ -121,7 +121,7 @@ Writer.unlink('https://res.cloudinary.com/your_cloud_name/image/upload/v15165404
 Delete resource on Google Cloud Storage
 ```js
 const Writer = Storage.Writer('google-cloud-storage', {
-    keyFile: './path_to/your_json_file',
+    keyFilename: './path_to/your_json_file',
     bucket: 'your_bucket_name'
 });
 
