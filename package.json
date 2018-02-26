@@ -1,6 +1,6 @@
 {
     "name": "comot",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "description": "Store file anywhere, anytime without pain",
     "main": "index.js",
     "scripts": {
